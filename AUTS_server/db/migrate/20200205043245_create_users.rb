@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :login
       t.string :email
       t.string :password_digest
-      t.string :type
+      t.string :type, default: 'Student'
 
       t.timestamps
     end

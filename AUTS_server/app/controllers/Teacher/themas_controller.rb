@@ -1,9 +1,9 @@
-class ThemasController < ApplicationController
+class Teacher::ThemasController < ApplicationController
   before_action :set_thema, only: [:show, :update, :destroy]
 
   # GET /themas
   def index
-    @themas = Thema.all
+    @themas = current_user.themas
 
     render json: @themas
   end
