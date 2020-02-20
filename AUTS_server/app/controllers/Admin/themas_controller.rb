@@ -1,9 +1,10 @@
 class Admin::ThemasController < ApplicationController
+  before_action :authorize_access_request!, except: [:update]
   before_action :set_thema, only: [:show, :update, :destroy]
 
   # GET /themas
   def index
-    @themas = Thema.all
+    @themas = Thema.all.as_json(except: [:teacher_id], include: {teacher: { only: :login}})
 
     render json: @themas
   end
@@ -34,7 +35,7 @@ class Admin::ThemasController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def thema_params
-      params.require(:thema).permit(:name, :teacher_id)
-    end
+  def thema_params
+    params.require(:thema).permit(:name, :teacher_id)
+  end
 end

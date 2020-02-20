@@ -1,4 +1,5 @@
 class Teacher::ThemasController < ApplicationController
+  before_action :authorize_access_request!, except: [:create, :update]
   before_action :set_thema, only: [:show, :update, :destroy]
 
   # GET /themas

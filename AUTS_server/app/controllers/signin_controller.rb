@@ -1,8 +1,9 @@
 class SigninController < ApplicationController
+  before_action :authorize_access_request!, only: [:destroy]
   def create
     user = User.find_by(email: params[:email_login]) || User.find_by(login: params[:email_login])
     if user && user.authenticate(params[:password])
-      payload  = { user_id: user.id }
+      payload  = { user_id: user.id, aud: [user.type] }
       session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
       tokens = session.login
       response.set_cookie(JWTSessions.access_cookie,

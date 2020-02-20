@@ -1,16 +1,17 @@
 class Admin::UsersController < ApplicationController
+  before_action :authorize_access_request!, except: [:update]
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
   def index
     @users = User.all.order(:id)
 
-    render json: @users
+    render json: @users.as_json(only: [:id,:login, :email, :type])
   end
 
   # GET /users/1
   def show
-    render json: @user
+    render json: @user.as_json(only: [:id,:login, :email, :type, :password, :password_confirmation])
   end
 
   # PATCH/PUT /users/1
@@ -35,6 +36,6 @@ class Admin::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:login, :email, :password, :password_confirmation, :type)
+      params.require(:user).permit(:id, :login, :email, :password, :password_confirmation, :type)
     end
 end
