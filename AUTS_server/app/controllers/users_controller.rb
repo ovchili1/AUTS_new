@@ -2,10 +2,26 @@ class UsersController < ApplicationController
   before_action :authorize_access_request!, except: [:all_teachers, :update]
   before_action :user_find, only: [:update]
 
+  def profile
+    if current_user.type == "Student"
+      render json: current_user.as_json(include: [:testings]  )
+    elsif current_user.type == "Teacher"
+      render json: current_user.as_json(include: [:themas, :questions, :tests]  )
+    else
+      #@testings = Testings.all || nil
+      @themas = Thema.all
+      @questions = Question.all
+      @tests = Test.all
+      render json: [user: current_user,themas: @themas, questions: @questions,tests: @tests]
+    end
+  end
+
   def all_teachers
     @teachers = User.all.where(type: "Teacher")
     render json: @teachers
   end
+
+
   def me
     render json: current_user.as_json(only: [:id,:login, :email, :type])
   end

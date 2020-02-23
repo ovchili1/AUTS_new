@@ -1,5 +1,5 @@
 class Teacher::QuestionsController < ApplicationController
-  before_action :authorize_access_request!
+  before_action :authorize_access_request!, except: [:create, :update]
   before_action :set_question, only: [:show, :update, :destroy]
 
   # GET /questions
@@ -11,15 +11,15 @@ class Teacher::QuestionsController < ApplicationController
 
   # GET /questions/1
   def show
-    render json: @question
+    render json: @question.as_json(include: :answers)
   end
 
   # POST /questions
   def create
-    @question = current_user.questions.build(question_params)
+    @question = Question.new(question_params)
 
     if @question.save
-      render json: @question, status: :created, location: @question
+      render json: @question, status: :created
     else
       render json: @question.errors, status: :unprocessable_entity
     end
@@ -47,6 +47,6 @@ class Teacher::QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.permit(:quest_body, :thema_id)
+      params.require(:question).permit(:quest_body, :quest_type, :thema_id, :teacher_id, answers_attributes: [:id, :ans_body, :right, :_destroy])
     end
 end

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get 'all_teachers',controller: :users, action: :all_teachers
 
-  get 'my_profile', controller: :users, action: :show
+  get 'my_profile', controller: :users, action: :profile
 
 
   resources :users, except: [:create, :index]

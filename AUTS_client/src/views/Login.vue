@@ -7,8 +7,17 @@
         </v-toolbar>
         <v-card-text>
             <v-form>
-                <v-text-field prepend-icon="person" label="Логин или почта" v-model.trim="email_login" required />
-                <v-text-field prepend-icon="vpn_key" type="password" label="Пароль" v-model.trim="password" required/>
+                <v-text-field 
+                    prepend-icon="person" 
+                    label="Логин или почта" 
+                    v-model.trim="email_login" 
+                    required />
+                <v-text-field 
+                    prepend-icon="vpn_key" 
+                    type="password" 
+                    label="Пароль" 
+                    v-model.trim="password" 
+                    required/>
             </v-form>
         </v-card-text>
         <v-card-actions>

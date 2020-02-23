@@ -7,10 +7,28 @@
         </v-toolbar>
         <v-card-text>
             <v-form @submit="signup">
-                <v-text-field prepend-icon="person" label="Логин" v-model="login" required />
-                <v-text-field prepend-icon="mail" label="Почта" v-model="email" required />
-                <v-text-field prepend-icon="vpn_key" type="password" label="Пароль" v-model="password" required/>
-                <v-text-field prepend-icon="vpn_key" type="password" label="Подтверждение пароля" v-model="password_confirm" required/>
+                <v-text-field 
+                    prepend-icon="person" 
+                    label="Логин" 
+                    v-model="login" 
+                    required />
+                <v-text-field 
+                    prepend-icon="mail" 
+                    label="Почта" 
+                    v-model="email" 
+                    required />
+                <v-text-field 
+                    prepend-icon="vpn_key" 
+                    type="password" 
+                    label="Пароль" 
+                    v-model="password" 
+                    required/>
+                <v-text-field 
+                    prepend-icon="vpn_key" 
+                    type="password" 
+                    label="Подтверждение пароля" 
+                    v-model="password_confirm" 
+                    required/>
             </v-form>
         </v-card-text>
         <v-card-actions>

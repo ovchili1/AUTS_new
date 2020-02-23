@@ -6,7 +6,7 @@ class Teacher::ThemasController < ApplicationController
   def index
     @themas = current_user.themas
 
-    render json: @themas
+    render json: @themas.as_json(include:[:tests, :questions])
   end
 
   # GET /themas/1
@@ -19,7 +19,7 @@ class Teacher::ThemasController < ApplicationController
     @thema = Thema.new(thema_params)
 
     if @thema.save
-      render json: @thema, status: :created, location: @thema
+      render json: @thema, status: :created
     else
       render json: @thema.errors, status: :unprocessable_entity
     end

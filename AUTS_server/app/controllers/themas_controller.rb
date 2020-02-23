@@ -4,7 +4,7 @@ class ThemasController < ApplicationController
   def index
     @themas = Thema.all.order(:id)
 
-    render json: @themas
+    render json: @themas.as_json(include: :questions)
   end
 
 end

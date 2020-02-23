@@ -4,7 +4,7 @@ class Admin::ThemasController < ApplicationController
 
   # GET /themas
   def index
-    @themas = Thema.all.as_json(except: [:teacher_id], include: {teacher: { only: :login}})
+    @themas = Thema.all.order(:id).as_json(except: [:teacher_id], include: [{teacher: { only: :login}}, :tests, :questions])
 
     render json: @themas
   end

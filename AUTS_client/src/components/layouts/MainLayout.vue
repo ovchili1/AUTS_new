@@ -3,6 +3,7 @@
     <v-navigation-drawer
         v-model="drawer"
         app
+        temporary
         >
         <v-layout column align-center>
             <v-flex class="mt-5">
@@ -50,7 +51,11 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
         <v-toolbar-title>AUTS</v-toolbar-title>
         <v-spacer/>
-        <v-btn class="text-capitalize ma-1" @click="logOut">Выйти</v-btn>
+        <v-btn class="text-capitalize ma-1" @click="logOut" icon>
+            <v-icon>
+                exit_to_app
+            </v-icon>
+        </v-btn>
         </v-app-bar>
 
         <v-content>
