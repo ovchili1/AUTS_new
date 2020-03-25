@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ans_body: MyString
+  right: false
+  weight: 1.5
+
+two:
+  ans_body: MyString
+  right: false
+  weight: 1.5

@@ -69,8 +69,11 @@
             </v-container>
         </template>
         <v-container>
-            <v-btn @click="add_EditQuestion">
+            <v-btn @click="add_EditQuestion" v-if="this.path.indexOf('add') != '-1'">
                 Добавить вопрос
+            </v-btn>
+            <v-btn @click="add_EditQuestion" v-else>
+                Изменить вопрос
             </v-btn>
         </v-container>
         
@@ -80,6 +83,40 @@
 <script>
 export default {
     name: 'Add_editQuestion',
+    computed: {
+        weight: function(){
+            var weight, kol = 0;
+            if (this.question.quest_type != "One"){
+                this.question.answers_attributes.forEach(ans => {
+                    if (ans.right == true) {
+                        kol +=1         
+                    }
+                });
+                weight = 1/ kol;
+                this.question.answers_attributes.forEach(ans => {
+                    if (ans.right == true) {
+                        ans.weight = weight         
+                    }
+                    else{
+                        ans.weight = 0
+                    }
+                });
+                return weight; 
+            }
+            else {
+                weight = 1;
+                this.question.answers_attributes.forEach(ans => {
+                    if (ans.right == true) {
+                        ans.weight = weight         
+                    }
+                    else {
+                        ans.weight = 0
+                    }
+                });
+                return weight;
+            }
+        },
+    },
     data(){
         return{
             themas: [],
@@ -95,6 +132,9 @@ export default {
             }
         }
     },
+    updated(){
+        this.updated_Add();
+    },
     created(){
         this.check_role(),
         this.fetchData()
@@ -105,13 +145,34 @@ export default {
                 this.question.teacher_id = this.current_User.id
                 this.$http.plain.post("/teacher/questions", { question: this.question})
                                   // eslint-disable-next-line no-console
-                                  .then(resp => console.log(resp))
+                                  .then(resp => this.success_AddEdit(resp))
             }
             else{
                 const role = this.current_User.type
                 this.$http.plain.put("/"+role.toLowerCase()+"/questions/" + this.question.id, { question: this.question})
                                   // eslint-disable-next-line no-console
-                                  .then(resp => console.log(resp))
+                                  .then(resp => this.success_AddEdit(resp))
+            }
+        },
+
+        updated_Add(){
+            this.question.answers_attributes.forEach(ans => {
+                    if (ans.right == true) {
+                        ans.weight = this.weight         
+                    }
+                    else{
+                        ans.weight = 0
+                    }
+                });
+            
+        },
+
+        success_AddEdit(resp){
+            if (resp.status == 201){
+                this.$router.replace("/dashboard")
+            }
+            else if (resp.status == 200){
+                this.$router.replace("/dashboard")
             }
         },
         check_role(){
@@ -141,11 +202,13 @@ export default {
             }
         },
         removeAnswers(index){
-            if (this.question.id == null){
+            if (this.question.id == ""){
                 this.question.answer_attributes.splice(index,1)
             }
             else{
                 const ind = this.question.answers_attributes.indexOf(index)
+                // eslint-disable-next-line no-console
+                console.log(this.question.answers_attributes[ind])
                 this.question.answers_attributes[ind]._destroy='1'
             } 
         },
@@ -158,6 +221,7 @@ export default {
                 id: null,
                 ans_body: '',
                 right: false,
+                weight: 0.0,
                 _destroy: null
             })
         }

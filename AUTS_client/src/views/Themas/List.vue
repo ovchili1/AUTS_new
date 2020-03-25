@@ -27,7 +27,6 @@
                         <td class="text-center">{{ item.questions.length }}</td>
                         <td class="text-center">{{ item.tests.length }}</td>
                         <td class="text-center">
-                            <v-btn class="ma-2 success">Посмотреть</v-btn>
                             <v-btn class="ma-2 warning" @click="updateThemas(item)">Изменить</v-btn>
                             <v-btn class="ma-2 error" @click="deleteThemas(item)">Удалить</v-btn>
                         </td>

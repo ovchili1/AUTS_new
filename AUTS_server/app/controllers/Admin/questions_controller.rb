@@ -6,7 +6,7 @@ class Admin::QuestionsController < ApplicationController
   def index
     @questions = Question.all
 
-    render json: @questions
+    render json: @questions.as_json(except: [:teacher_id, :thema_id], include: [{teacher: { only: :login}, thema: { only: :name}}])
   end
 
   # GET /questions/1

@@ -1,25 +1,25 @@
 class Teacher::TestsController < ApplicationController
-  before_action :authorize_access_request!
+  before_action :authorize_access_request!, except: [:create, :update]
   before_action :set_test, only: [:show, :update, :destroy]
 
   # GET /tests
   def index
-    @tests = current_user.tests.as_json(except: [:teacher_id], include: {teacher: { only: :login}})
+    @tests = current_user.tests.as_json(except: [:teacher_id], include: [{teacher: { only: :login}, themas: { only: :name}}])
 
     render json: @tests
   end
 
   # GET /tests/1
   def show
-    render json: @test
+    render json: @test.as_json(include: {themas: {include: :questions}})
   end
 
   # POST /tests
   def create
-    @test = current_user.tests.build(test_params)
+    @test = Test.new(test_params)
 
     if @test.save
-      render json: @test, status: :created, location: @test
+      render json: @test, status: :created
     else
       render json: @test.errors, status: :unprocessable_entity
     end
@@ -47,6 +47,6 @@ class Teacher::TestsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def test_params
-      params.permit(:name, :num_of_quest)
+      params.require(:test).permit(:id,:name, :num_of_quest, :teacher_id, :thema_ids => [])
     end
 end

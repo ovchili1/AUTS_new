@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :testings
   resources :questions
   post 'refresh', controller: :refresh, action: :create
   post 'signup', controller: :signup, action: :create
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
     resources :themas, except: [:create]
     resources :tests, except: [:create]
     resources :questions, except: [:create]
+    resources :testings, except: [:creates]
   end
 
   namespace :teacher do
@@ -27,6 +29,8 @@ Rails.application.routes.draw do
   end
 
   namespace :student do
+    resources :testings, except: [:update, :destroy]
+    resources :tests, only: [:show]
   end
 
   resources :themas, only: [:index]

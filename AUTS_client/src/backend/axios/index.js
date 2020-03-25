@@ -1,7 +1,9 @@
 import axios from "axios";
 import { store } from "./../../store";
 
-const API_URL = "http://localhost:3000";
+//const API_URL = "http://localhost:3000";
+const API_URL = "http://192.168.1.12:3000";
+
 
 const securedAxiosInstance = axios.create({
   baseURL: API_URL,

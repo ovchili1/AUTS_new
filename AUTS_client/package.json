@@ -10,6 +10,12 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.4.4",
+    "html2canvas": "^1.0.0-rc.5",
+    "html2pdf": "^0.0.11",
+    "html2pdf.js": "^0.9.2",
+    "jspdf": "^1.5.3",
+    "jszip": "^3.2.2",
+    "kendo": "^0.14.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
     "vue-router": "^3.1.3",

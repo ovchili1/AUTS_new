@@ -6,7 +6,7 @@ class Teacher::QuestionsController < ApplicationController
   def index
     @questions = current_user.questions
 
-    render json: @questions
+    render json: @questions.as_json(except: [:teacher_id, :thema_id], include: [{teacher: { only: :login}, thema: { only: :name}}])
   end
 
   # GET /questions/1
@@ -47,6 +47,6 @@ class Teacher::QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:quest_body, :quest_type, :thema_id, :teacher_id, answers_attributes: [:id, :ans_body, :right, :_destroy])
+      params.require(:question).permit(:quest_body, :quest_type, :thema_id, :teacher_id, answers_attributes: [:id, :ans_body, :right, :weight, :_destroy])
     end
 end
